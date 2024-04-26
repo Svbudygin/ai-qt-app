@@ -1,87 +1,87 @@
-# Техническое задание для приложения на Qt C++
+# Technical Specification for a Qt C++ Application
 
-## Общее описание
-Разработать приложение на Qt C++, предоставляющее возможность входа/регистрации пользователей, создания и редактирования постов с использованием Yandex GPT, а также просмотра истории всех постов. Приложение должно обеспечивать безопасное хранение данных пользователей с помощью хеширования, взаимодействие с внешним API Yandex GPT для генерации текста и использование SQLite для хранения постов и пользовательских данных.
+## General Description
+Develop a Qt C++ application that provides user login/registration functionality, post creation and editing using Yandex GPT, and viewing the history of all posts. The application should ensure secure storage of user data through hashing, interact with the Yandex GPT external API for text generation, and use SQLite for storing posts and user data.
 
-## Раздел 1: Вход/Регистрация
-### 1.1 Вход в систему:
-- При запуске приложения производится проверка наличия данных о пользователе в базе данных SQLite.
-- Если данные о пользователе обнаружены, приложение отправляет запрос на сервер для проверки корректности информации о пользователе (логин, хэш пароля и токен).
-- Если данные о пользователе не обнаружены в базе данных или они некорректные, открывается экран входа в систему.
-- Пользователь вводит свои учетные данные (логин и пароль) для входа в систему.
-- После успешного входа пользователю предоставляются его данные и токен для последующего использования.
+## Section 1: Login/Registration
+### 1.1 Login:
+- Upon launching the application, it checks for user data in the SQLite database.
+- If user data is found, the application sends a request to the server to verify the correctness of the user information (login, hashed password, and token).
+- If no user data is found in the database or if it is incorrect, the login screen opens.
+- The user enters their credentials (username and password) to log in.
+- Upon successful login, the user is provided with their data and token for subsequent use.
 
-### 1.2 Регистрация нового аккаунта:
-- Если данные о пользователе отсутствуют или некорректные, открывается экран регистрации нового аккаунта.
-- Пользователь заполняет форму регистрации, включающую следующие поля:
-    - Почта (email)
-    - Пароль
-    - Имя
-    - Фамилия
-    - ID Telegram канала (опционально)
-- После заполнения формы пользователь отправляет запрос на сервер для регистрации нового аккаунта.
-- Сервер проверяет уникальность почты и производит хеширование пароля перед сохранением в базу данных.
-- После успешной регистрации пользователю предоставляются его данные и токен для последующего использования.
+### 1.2 Registration of a New Account:
+- If no user data or incorrect data is found, the registration screen opens.
+- The user fills out the registration form, including the following fields:
+    - Email
+    - Password
+    - First Name
+    - Last Name
+    - Telegram Channel ID (optional)
+- After filling out the form, the user sends a request to the server to register a new account.
+- The server checks the uniqueness of the email and hashes the password before saving it to the database.
+- After successful registration, the user is provided with their data and token for subsequent use.
 
-## Раздел 2: Главная страница (Редактор постов с использованием Yandex GPT)
-### 2.1 Редактирование постов:
-- После успешного входа пользователю открывается главная страница, где расположен редактор для создания и редактирования постов.
-- Редактор предоставляет пользователю поле для ввода описания поста.
-- После ввода описания поста пользователь может нажать кнопку "Сгенерировать пост", чтобы Yandex GPT создал текст поста на основе введенного описания. После генерации текста он заменяет введенное описание.
-- Пользователь может редактировать сгенерированный текст поста в том же окне.
-- При необходимости пользователь может нажать кнопку "Назад", чтобы заново задать описание поста и повторить процесс генерации.
-- Пользователь также имеет возможность нажать кнопку "Сгенерировать заново", чтобы повторно создать текст поста с использованием Yandex GPT.
-- Перед отправкой поста пользователь может просмотреть его, нажав на кнопку "Просмотреть пост". Это открывает окно предварительного просмотра, где пользователь может увидеть, как будет выглядеть пост с текстом и (при наличии) изображением.
+## Section 2: Main Page (Post Editor using Yandex GPT)
+### 2.1 Post Editing:
+- Upon successful login, the main page opens, where the editor for creating and editing posts is located.
+- The editor provides the user with a field to enter the post description.
+- After entering the post description, the user can click the "Generate Post" button to have Yandex GPT generate the post text based on the entered description. After text generation, it replaces the entered description.
+- The user can edit the generated post text in the same window.
+- If necessary, the user can click the "Back" button to re-enter the post description and repeat the generation process.
+- The user also has the option to click the "Regenerate" button to regenerate the post text using Yandex GPT.
+- Before submitting the post, the user can preview it by clicking the "Preview Post" button. This opens a preview window where the user can see how the post will look with text and (if available) an image.
 
-### 2.2 Создание поста с изображением:
-- После редактирования текста поста пользователь может нажать кнопку "Далее", чтобы перейти к созданию поста с изображением.
-- На следующем экране пользователю предоставляется возможность выбрать способ создания поста с изображением:
-    - Возможность ввести описание изображения в поле текста.
-    - Возможность добавить собственное изображение, щелкнув на кнопку "Добавить своё фото".
-- После ввода описания и, при необходимости, добавления своего изображения пользователь может нажать кнопку "Отправить", чтобы создать пост с текстом и изображением.
+### 2.2 Creating a Post with an Image:
+- After editing the post text, the user can click the "Next" button to proceed to create a post with an image.
+- On the next screen, the user is provided with the option to choose how to create a post with an image:
+    - Ability to enter an image description in a text field.
+    - Ability to add their own image by clicking the "Add Your Own Photo" button.
+- After entering the description and, if necessary, adding their own image, the user can click the "Send" button to create a post with text and an image.
 
-## Раздел 3: История всех постов:
-- Пользователь должен иметь доступ к истории всех созданных им постов.
-- Посты должны быть сохранены в базе данных SQLite с меткой времени создания.
-- Пользователь должен иметь возможность просматривать и редактировать ранее созданные посты.
+## Section 3: History of All Posts:
+- The user should have access to the history of all posts they have created.
+- Posts should be saved in the SQLite database with a timestamp.
+- The user should be able to view and edit previously created posts.
 
-## Раздел 4: SQLite База данных
-### 4.1 Структура базы данных:
-- В приложении используется SQLite для хранения пользовательских данных и системных переменных.
-- База данных содержит две таблицы: "Users" (пользователи) и "SystemVariables" (системные переменные).
+## Section 4: SQLite Database
+### 4.1 Database Structure:
+- The application uses SQLite to store user data and system variables.
+- The database contains two tables: "Users" and "SystemVariables".
 
-### 4.2 Таблица "Users" (пользователи):
-- Эта таблица содержит информацию о зарегистрированных пользователях.
-- Структура таблицы:
-    - id (INTEGER, PRIMARY KEY): уникальный идентификатор пользователя.
-    - login (TEXT, UNIQUE): логин пользователя.
-    - password_hash (TEXT): хеш пароля пользователя.
-    - email (TEXT, UNIQUE): адрес электронной почты пользователя.
-    - telegram_chat_id (TEXT, UNIQUE): ID чата в Telegram пользователя (опционально).
+### 4.2 "Users" Table:
+- This table contains information about registered users.
+- Table Structure:
+    - id (INTEGER, PRIMARY KEY): unique user identifier.
+    - login (TEXT, UNIQUE): user login.
+    - password_hash (TEXT): hashed user password.
+    - email (TEXT, UNIQUE): user email address.
+    - telegram_chat_id (TEXT, UNIQUE): user's Telegram chat ID (optional).
 
-### 4.3 Таблица "SystemVariables" (системные переменные):
-- Эта таблица содержит системные переменные, такие как токен для взаимодействия с API и другие настройки приложения.
-- Структура таблицы:
-    - id (INTEGER, PRIMARY KEY): уникальный идентификатор записи.
-    - name (TEXT, UNIQUE): название переменной.
-    - value (TEXT): значение переменной.
+### 4.3 "SystemVariables" Table:
+- This table contains system variables such as API tokens and other application settings.
+- Table Structure:
+    - id (INTEGER, PRIMARY KEY): unique record identifier.
+    - name (TEXT, UNIQUE): variable name.
+    - value (TEXT): variable value.
 
-### 4.4 Использование системных переменных:
-- Токен для взаимодействия с API (например, Yandex GPT) хранится в таблице "SystemVariables" под определенным именем (например, "api_token").
-- Для обновления или получения токена используются SQL запросы к таблице "SystemVariables".
+### 4.4 Using System Variables:
+- The API token (e.g., for Yandex GPT) is stored in the "SystemVariables" table under a specific name (e.g., "api_token").
+- SQL queries to the "SystemVariables" table are used to update or retrieve the token.
 
-### 4.5 Безопасность данных:
-- Для обеспечения безопасности пользовательских паролей они хешируются перед сохранением в базе данных.
-- Для защиты от возможных угроз безопасности данные пользователя (логин, пароль, почта) должны быть хранены в зашифрованном виде.
-- Используйте параметризованные SQL запросы для предотвращения атак внедрения SQL (SQL injection).
+### 4.5 Data Security:
+- To ensure the security of user passwords, they are hashed before being saved to the database.
+- To protect against potential security threats, user data (login, password, email) should be stored in encrypted form.
+- Use parameterized SQL queries to prevent SQL injection attacks.
 
-## Стек технологий:
-- Qt C++ для разработки графического интерфейса и логики приложения.
-- Библиотеки хеширования для безопасного хранения паролей пользователей.
-- HTTP requests для взаимодействия с API Yandex GPT для генерации текста.
-- База данных SQLite для хранения информации о пользователях и постах.
+## Technology Stack:
+- Qt C++ for developing the graphical interface and application logic.
+- Hashing libraries for securely storing user passwords.
+- HTTP requests for interacting with the Yandex GPT API for text generation.
+- SQLite database for storing user and post information.
 
-## По окончании разработки:
-- Обеспечьте тестирование приложения на предмет соответствия функциональным требованиям и безопасности.
-- Предусмотрите возможность обработки ошибок и исключительных ситуаций для повышения надежности приложения.
-- Проверьте соответствие требованиям защиты данных при сборе, хранении и обработке пользовательской информации.
+## Upon Completion of Development:
+- Ensure testing of the application for compliance with functional requirements and security.
+- Provide error and exception handling to improve application reliability.
+- Verify compliance with data protection requirements when collecting, storing, and processing user information.
